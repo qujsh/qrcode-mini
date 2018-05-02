@@ -47,14 +47,21 @@ function saveImg($img, $filename='')
  * @return resource
  */
 function roundImg($img_path, $filename='') {
-    $ext     = pathinfo($img_path);
+    $ename = getimagesize($img_path);
+    $ename = explode('/', $ename['mime']);
+    $ext = $ename[1];
+
     $src_img = null;
-    switch ($ext['extension']) {
+    switch ($ext) {
         case 'jpg':
+        case 'jpeg':
             $src_img = imagecreatefromjpeg($img_path);
             break;
         case 'png':
             $src_img = imagecreatefrompng($img_path);
+            break;
+        case 'gif':
+            $src_img = imagecreatefromgif($img_path);
             break;
     }
     $wh  = getimagesize($img_path);
